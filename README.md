@@ -1,5 +1,68 @@
 # GTR API
 
+> [!WARNING]  
+> This package is deprecated. The GTR and Zworpshop APIs are now available to be consumed as GraphQL or JSON:API resources.
+>
+> 1. Switch to the [fully typed & always-up-to-date GraphQL implementation](https://github.com/zeepkist/graphql) of GTR/Zworpshop ([`@zeepkist/graphql`](https://github.com/zeepkist/graphql))
+> 1. Or, switch to the [JSON:API](https://jsonapi.org/format/) implementation using [`kitsu`](https://github.com/wopian/kitsu/tree/master/packages/kitsu) or [`kitsu-core`](https://github.com/wopian/kitsu/tree/master/packages/kitsu-core)
+>
+>    For `kitsu`, setup the client for use with GTR and/or Zworpshop as follows:
+>
+>    ```js
+>    import Kitsu from 'kitsu'
+>
+>    // setup the GTR client
+>    const gtr = new Kitsu({
+>      baseURL: 'https://jsonapi.zeepkist-gtr.com',
+>      query: 'modern',
+>      pluralize: false
+>    })
+>
+>    // fetch Records resources
+>    const records = await gtr.get('records', {
+>      params: {
+>        sort: 'time',
+>        include: 'user',
+>        fields: {
+>          users: 'steamId,steamName',
+>          medias: 'ghostUrl,screenshotUrl'
+>        },
+>        filter: "and(equals(isValid,'true'),equals(level,'BD3B71EB2AF356D3747E5674261E0589CEE79B3E'))",
+>        page: {
+>          size: 5, // 5 items per page
+>          number: 2 // page 2 of results
+>        }
+>      }
+>    })
+>
+>    // setup the Zworpshop client
+>    const zworpshop = new Kitsu({
+>      baseURL: 'https://jsonapi.zworpshop.com',
+>      query: 'modern',
+>      pluralize: false
+>    })
+>
+>    // fetch Levels resources
+>    const levels = await zworpshop.get('levels', {
+>      params: {
+>        sort: '-name',
+>        include: 'metadata',
+>        fields: {
+>          levels: 'name,metadata',
+>          metadata: 'hash,validation,gold,silver,bronze,valid'
+>        },
+>        filter: "and(equals(metadata.valid,'false'),lessThan(metadata.gold,'50.125'))",
+>        page: {
+>          size: 5, // 5 items per page
+>          number: 3 // page 3 of results
+>        }
+>      }
+>    })
+>    ```
+>    For more examples, see the [kitsu](https://github.com/wopian/kitsu/tree/master/packages/kitsu#quick-start) documentation (e.g fetching resources, single resource, relationships and relationships of relationships etc)
+>    
+>    See the [JsonApiDotNetCore documentation](https://www.jsonapi.net/usage/reading/filtering.html) on valid filtering options.
+
 Fully typed TypeScript API client for the [GTR API](https://api.zeepkist-gtr.com).
 
 Up-to-date with `v0.20.1` of the GTR API.
